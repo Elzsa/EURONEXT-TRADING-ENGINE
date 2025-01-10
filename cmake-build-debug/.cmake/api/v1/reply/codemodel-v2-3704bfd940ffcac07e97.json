@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "MatchingEngine",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -41,6 +43,13 @@
 					"id" : "MatchingEngine::@6890427a1f51a3e7e1df",
 					"jsonFile" : "target-MatchingEngine-Debug-1570947be7730b49bd97.json",
 					"name" : "MatchingEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TestMatchingEngine::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestMatchingEngine-Debug-66a2b1c28f7043384da1.json",
+					"name" : "TestMatchingEngine",
 					"projectIndex" : 0
 				}
 			]

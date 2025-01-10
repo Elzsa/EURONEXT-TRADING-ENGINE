@@ -102,6 +102,68 @@ build MatchingEngine.exe: CXX_EXECUTABLE_LINKER__MatchingEngine_Debug CMakeFiles
   TARGET_IMPLIB = libMatchingEngine.dll.a
   TARGET_PDB = MatchingEngine.exe.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target TestMatchingEngine
+
+
+#############################################
+# Order-only phony target for TestMatchingEngine
+
+build cmake_object_order_depends_target_TestMatchingEngine: phony || .
+
+build CMakeFiles/TestMatchingEngine.dir/matching_engine/tests/test_main.cpp.obj: CXX_COMPILER__TestMatchingEngine_unscanned_Debug C$:/Users/PAYA$ Elsa/Documents/ELSA/ECOLE/S9$ M2/C++/EURONEXT$ PROJECT/MatchingEngine/matching_engine/tests/test_main.cpp || cmake_object_order_depends_target_TestMatchingEngine
+  DEP_FILE = CMakeFiles\TestMatchingEngine.dir\matching_engine\tests\test_main.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include"
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\TestMatchingEngine.dir\matching_engine\tests
+
+build CMakeFiles/TestMatchingEngine.dir/matching_engine/src/Order.cpp.obj: CXX_COMPILER__TestMatchingEngine_unscanned_Debug C$:/Users/PAYA$ Elsa/Documents/ELSA/ECOLE/S9$ M2/C++/EURONEXT$ PROJECT/MatchingEngine/matching_engine/src/Order.cpp || cmake_object_order_depends_target_TestMatchingEngine
+  DEP_FILE = CMakeFiles\TestMatchingEngine.dir\matching_engine\src\Order.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include"
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\TestMatchingEngine.dir\matching_engine\src
+
+build CMakeFiles/TestMatchingEngine.dir/matching_engine/src/OrderBook.cpp.obj: CXX_COMPILER__TestMatchingEngine_unscanned_Debug C$:/Users/PAYA$ Elsa/Documents/ELSA/ECOLE/S9$ M2/C++/EURONEXT$ PROJECT/MatchingEngine/matching_engine/src/OrderBook.cpp || cmake_object_order_depends_target_TestMatchingEngine
+  DEP_FILE = CMakeFiles\TestMatchingEngine.dir\matching_engine\src\OrderBook.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include"
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\TestMatchingEngine.dir\matching_engine\src
+
+build CMakeFiles/TestMatchingEngine.dir/matching_engine/src/Instrument.cpp.obj: CXX_COMPILER__TestMatchingEngine_unscanned_Debug C$:/Users/PAYA$ Elsa/Documents/ELSA/ECOLE/S9$ M2/C++/EURONEXT$ PROJECT/MatchingEngine/matching_engine/src/Instrument.cpp || cmake_object_order_depends_target_TestMatchingEngine
+  DEP_FILE = CMakeFiles\TestMatchingEngine.dir\matching_engine\src\Instrument.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include"
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\TestMatchingEngine.dir\matching_engine\src
+
+build CMakeFiles/TestMatchingEngine.dir/matching_engine/src/MatchingEngine.cpp.obj: CXX_COMPILER__TestMatchingEngine_unscanned_Debug C$:/Users/PAYA$ Elsa/Documents/ELSA/ECOLE/S9$ M2/C++/EURONEXT$ PROJECT/MatchingEngine/matching_engine/src/MatchingEngine.cpp || cmake_object_order_depends_target_TestMatchingEngine
+  DEP_FILE = CMakeFiles\TestMatchingEngine.dir\matching_engine\src\MatchingEngine.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include"
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\TestMatchingEngine.dir\matching_engine\src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target TestMatchingEngine
+
+
+#############################################
+# Link the executable TestMatchingEngine.exe
+
+build TestMatchingEngine.exe: CXX_EXECUTABLE_LINKER__TestMatchingEngine_Debug CMakeFiles/TestMatchingEngine.dir/matching_engine/tests/test_main.cpp.obj CMakeFiles/TestMatchingEngine.dir/matching_engine/src/Order.cpp.obj CMakeFiles/TestMatchingEngine.dir/matching_engine/src/OrderBook.cpp.obj CMakeFiles/TestMatchingEngine.dir/matching_engine/src/Instrument.cpp.obj CMakeFiles/TestMatchingEngine.dir/matching_engine/src/MatchingEngine.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\TestMatchingEngine.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = TestMatchingEngine.exe
+  TARGET_IMPLIB = libTestMatchingEngine.dll.a
+  TARGET_PDB = TestMatchingEngine.exe.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -130,6 +192,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build MatchingEngine: phony MatchingEngine.exe
 
+build TestMatchingEngine: phony TestMatchingEngine.exe
+
 # =============================================================================
 # Folder targets.
 
@@ -138,7 +202,7 @@ build MatchingEngine: phony MatchingEngine.exe
 #############################################
 # Folder: C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/cmake-build-debug
 
-build all: phony MatchingEngine.exe
+build all: phony MatchingEngine.exe TestMatchingEngine.exe
 
 # =============================================================================
 # Built-in targets

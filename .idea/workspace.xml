@@ -20,6 +20,7 @@
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="MatchingEngine" targetName="MatchingEngine" />
+      <config projectName="MatchingEngine" targetName="TestMatchingEngine" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -30,15 +31,18 @@
   <component name="ChangeListManager">
     <list default="true" id="cfab8c86-ad5b-432a-8e58-012f53ff4310" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-dc6a37b72fed7ee88937.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2025-01-08T14-02-20-0881.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/MatchingEngine.dir/matching_engine/src/Order.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/MatchingEngine.dir/matching_engine/src/Order.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/MatchingEngine.dir/matching_engine/src/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/MatchingEngine.dir/matching_engine/src/main.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/MatchingEngine.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/MatchingEngine.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matching_engine/include/Order.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/matching_engine/include/Order.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matching_engine/src/Order.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/matching_engine/src/Order.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matching_engine/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/matching_engine/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matching_engine/tests/test_main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/matching_engine/tests/test_main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,15 +73,18 @@
     <setting file="file://$PROJECT_DIR$/matching_engine/include/MatchingEngine.hpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include/Order.hpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/include/Order.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/include/Order.hpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/include/OrderBook.hpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/src/Instrument.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/src/MatchingEngine.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/src/Order.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/src/Order.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/src/Order.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/src/OrderBook.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/matching_engine/src/main.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/src/main.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/matching_engine/tests/test_main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/MatchingEngine/matching_engine/src/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/matching_engine/tests/test_main.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -96,37 +103,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;CMake Application.MatchingEngine.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Debug.Project.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;orderbook&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/CODE_2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "C/C++ File.test_main.cpp.executor": "Run",
+    "CMake Application.MatchingEngine.executor": "Run",
+    "CMake Debug.Project.executor": "Debug",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "orderbook",
+    "last_opened_file_path": "C:/Users/PAYA Elsa/Documents/ELSA/ECOLE/S9 M2/C++/EURONEXT PROJECT/CODE_2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\PAYA Elsa\Documents\ELSA\ECOLE\S9 M2\C++\EURONEXT PROJECT\MatchingEngine" />
       <recent name="C:\Users\PAYA Elsa\Documents\ELSA\ECOLE\S9 M2\C++\EURONEXT PROJECT\MatchingEngine\matching_engine" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.MatchingEngine">
+  <component name="RunManager" selected="CMake Application.TestMatchingEngine">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
@@ -135,12 +148,26 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestMatchingEngine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MatchingEngine" TARGET_NAME="TestMatchingEngine" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MatchingEngine" RUN_TARGET_NAME="TestMatchingEngine">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_main.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MatchingEngine" TARGET_NAME="test_main.cpp" CONFIG_NAME="test_main.cpp">
+      <option name="sourceFile" value="matching_engine\tests\test_main.cpp" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="C/C++ File.test_main.cpp" />
       <item itemvalue="CMake Application.MatchingEngine" />
+      <item itemvalue="CMake Application.TestMatchingEngine" />
       <item itemvalue="CMake Debug.Project" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="C/C++ File.test_main.cpp" />
         <item itemvalue="CMake Debug.Project" />
       </list>
     </recent_temporary>
@@ -158,7 +185,7 @@
       <workItem from="1736343578381" duration="392000" />
       <workItem from="1736343993496" duration="272000" />
       <workItem from="1736344294414" duration="5917000" />
-      <workItem from="1736515905600" duration="1265000" />
+      <workItem from="1736515905600" duration="2105000" />
     </task>
     <servers />
   </component>
