@@ -4,7 +4,9 @@
 
 // src/main.cpp
 #include <iostream>
+#include <chrono>
 #include "Instrument.hpp"
+#include "Order.hpp"
 
 int main() {
 
@@ -24,6 +26,27 @@ int main() {
     instrument4.display();
     instrument5.display();
     instrument6.display();
+
+    // Créer des ordres
+    auto now = std::chrono::system_clock::now();
+    Order order1(101, now, 150, 100, TimeInForce::DAY, OrderType::LIMIT, instrument1.idinstrument, 100, 1001);
+    Order order2(102, now, 2800, 50, TimeInForce::GTC, OrderType::MARKET, instrument2.idinstrument, 50, 1002);
+    Order order3(103, now, 3400, 150, TimeInForce::DAY, OrderType::LIMIT, instrument3.idinstrument, 150, 1003);
+    Order order4(104, now, 750, 80, TimeInForce::GTD, OrderType::MARKET, instrument4.idinstrument, 80, 1004);
+    Order order5(105, now, 299, 120, TimeInForce::GTC, OrderType::LIMIT, instrument5.idinstrument, 120, 1005);
+    Order order6(106, now, 650, 60, TimeInForce::DAY, OrderType::LIMIT, instrument6.idinstrument, 60, 1006);
+
+
+    // Afficher les informations des ordres
+    order1.display();
+    order2.display();
+    order1.display();
+    order2.display();
+    order3.display();
+    order4.display();
+    order5.display();
+    order6.display();
+
 
     return 0;
 }
