@@ -19,7 +19,7 @@ void Order::display() const {
     std::cout << "Quantity: " << quantity << "\n";
     std::cout << "Time In Force: " << (timeinforce == TimeInForce::DAY ? "DAY" :
                                        timeinforce == TimeInForce::GTC ? "GTC" : "GTD") << "\n";
-    std::cout << "Order Type: " << (ordertype == OrderType::LIMIT ? "LIMIT" : "MARKET") << "\n";
+    std::cout << "Order Type: " << (ordertype == OrderType::BID ? "BID" : "ASK") << "\n";
     std::cout << "Instrument ID: " << idinstrument << "\n";
     std::cout << "Original Quantity: " << originalqty << "\n";
     std::cout << "Firm ID: " << idfirm << "\n";

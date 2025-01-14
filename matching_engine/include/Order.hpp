@@ -16,11 +16,12 @@ enum class TimeInForce {
     DAY,         // Valide pour la journée
     GTC,         // Good Till Cancelled
     GTD          // Good Till Date
+    // Ajouter le limit order page 7 POC Euronext
 };
 
 enum class OrderType {
-    LIMIT,       // Ordre à prix limite
-    MARKET       // Ordre au prix du marché
+    BID,       // Ordre
+    ASK,       // Ordre
 };
 
 // Classe représentant un ordre
