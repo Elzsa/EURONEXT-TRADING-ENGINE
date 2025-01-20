@@ -1,48 +1,49 @@
-//
-// Created by PAYA Elsa on 08/01/2025.
-//
-
-// include/Order.hpp
 #ifndef ORDER_HPP
 #define ORDER_HPP
 
 #include <string>
 #include <chrono>
-#include <ctime>
-#include "Instrument.hpp"
+#include <optional>
+#include <iostream>
 
-// Définition des énumérations pour TimeInForce et OrderType
+// Enumeration for TimeInForce (order validity type)
 enum class TimeInForce {
-    DAY,         // Valide pour la journée
-    GTC,         // Good Till Cancelled
-    GTD          // Good Till Date
-    // Ajouter le limit order page 7 POC Euronext
+    GTD,         // Good Till Date
+    DAY          // Valid for the trading day
 };
 
+// Enumeration for OrderType (type of order)
 enum class OrderType {
-    BID,       // Ordre
-    ASK,       // Ordre
+    BID,         // Buy Order
+    ASK          // Sell Order
 };
 
-// Classe représentant un ordre
+// Order class definition
 class Order {
 public:
-    int idorder;               // ID de l'ordre
-    std::chrono::system_clock::time_point priority; // Horodatage de la priorité
-    int price;                 // Prix de l'ordre
-    int quantity;             // Quantité demandée
-    TimeInForce timeinforce;  // Type de validité de l'ordre
-    OrderType ordertype;      // Type d'ordre (limite ou marché)
-    int idinstrument;         // ID de l'instrument concerné
-    int originalqty;          // Quantité originale de l'ordre
-    int idfirm;               // ID de la firme émettrice de l'ordre
+    // Attributes (aligned with the database structure)
+    int idorder;  // Unique ID of the order
+    std::chrono::system_clock::time_point priority; // Priority timestamp
+    int price;    // Price of the order
+    int quantity; // Quantity requested
+    TimeInForce timeinforce; // Validity type of the order (e.g., GTD)
+    OrderType ordertype;     // Type of order (BID or ASK)
+    int idinstrument;        // Instrument ID
+    int originalqty;         // Original quantity of the order
+    int idfirm;              // Firm ID submitting the order
 
-    // Constructeur
+    // Constructor
     Order(int idorder, std::chrono::system_clock::time_point priority, int price, int quantity,
           TimeInForce timeinforce, OrderType ordertype, int idinstrument, int originalqty, int idfirm);
 
-    // Méthode pour afficher les informations de l'ordre
+    // Display order details
     void display() const;
+
+    // Validate limit order (price must be strictly positive)
+    bool isValidLimitOrder() const;
+
+    // Check if the order is expired (for GTD orders)
+    bool isExpired(const std::chrono::system_clock::time_point& current_time) const;
 };
 
-#endif
+#endif // ORDER_HPP
