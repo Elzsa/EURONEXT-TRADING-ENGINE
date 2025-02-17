@@ -1,0 +1,14 @@
+# Exclure les dépendances externes
+external/
+
+# Exclure les fichiers de build
+build/
+
+# Exclure les DLL et fichiers binaires générés
+*.dll
+*.exe
+*.lib
+*.a
+
+
+cmake-build-debug/
