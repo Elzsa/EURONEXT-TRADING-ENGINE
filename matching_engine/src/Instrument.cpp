@@ -12,9 +12,9 @@ Instrument::Instrument(int idinstrument, const std::string& name, int issue, Sta
       lotsize(lotsize), pricedecimal(pricedecimal), currentorderid(currentorderid), currenttradeid(currenttradeid),
       idapf(idapf)
 {
-    // Copier le nom (qui est en chaîne de caractères) dans le tableau 'name' et s'assure qu'elle est correctement terminée par \0
+
     strncpy(this->name, name.c_str(), sizeof(this->name) - 1);
-    this->name[sizeof(this->name) - 1] = '\0';  // Assurer que le nom est bien null-terminé
+    this->name[sizeof(this->name) - 1] = '\0';  // Le nom null-terminated
 }
 
 void Instrument::display() const {

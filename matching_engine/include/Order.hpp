@@ -11,20 +11,20 @@
 #include <ctime>
 #include "Instrument.hpp"
 
-// Définition des énumérations pour TimeInForce et OrderType
+
 enum class TimeInForce {
-    DAY,         // Valide pour la journée
+    DAY,         // Valide pour la journée, je sais plus quelle page POC
     GTC,         // Good Till Cancelled
     GTD          // Good Till Date
-    // Ajouter le limit order page 7 POC Euronext
+
 };
 
 enum class OrderType {
-    BID,       // Ordre
-    ASK,       // Ordre
+    BID,
+    ASK,
 };
 
-// Classe représentant un ordre
+
 class Order {
 public:
     int idorder;               // ID de l'ordre
@@ -33,15 +33,15 @@ public:
     int quantity;             // Quantité demandée
     TimeInForce timeinforce;  // Type de validité de l'ordre
     OrderType ordertype;      // Type d'ordre (limite ou marché)
-    int idinstrument;         // ID de l'instrument concerné
+    int idinstrument;         // ID de l'instrument en question
     int originalqty;          // Quantité originale de l'ordre
-    int idfirm;               // ID de la firme émettrice de l'ordre
+    int idfirm;               // ID de la firme qui a émis l'ordre
 
-    // Constructeur
+
     Order(int idorder, std::chrono::system_clock::time_point priority, int price, int quantity,
           TimeInForce timeinforce, OrderType ordertype, int idinstrument, int originalqty, int idfirm);
 
-    // Méthode pour afficher les informations de l'ordre
+
     void display() const;
 };
 

@@ -20,7 +20,7 @@ enum class State {
 class Instrument {
 public:
     int idinstrument;
-    char name[50];           // Nom de l'instrument (max 50 caractères)
+    char name[50];           // Nom de l'instrument (max 50 cara) selon POC EURO
     int issue;
     State state;             // Utilisation de l'énumération pour l'état
     int refprice;
@@ -31,11 +31,11 @@ public:
     int currenttradeid;
     int idapf;
 
-    // Constructeur
+
     Instrument(int idinstrument, const std::string& name, int issue, State state, int refprice, int idtradinggroup,
                int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf);
 
-    // Méthodes pour afficher les informations
+
     void display() const;
 };
 

@@ -11,23 +11,23 @@
 
 class OrderBook {
 private:
-    // Définitions des price levels pour les bids et asks
-    using PriceLevel = std::queue<Order>; // FIFO pour les ordres à un même prix
+
+    using PriceLevel = std::queue<Order>;
 
     // Structures pour trier les price levels
-    std::map<double, PriceLevel, std::greater<double>> bids; // Prix décroissants
-    std::map<double, PriceLevel> asks;                      // Prix croissants
+    std::map<double, PriceLevel, std::greater<double>> bids;
+    std::map<double, PriceLevel> asks;
 
 public:
-    // Ajouter un ordre
+
     void addOrder(const Order& order);
 
-    // Afficher l'order book
+
     void display() const;
-    // Afficher l'order book
+
     void display2() const;
 
-    // Obtenir le "top of the book" (le meilleur bid et ask)
+
     std::pair<Order, Order> getTopOfBook() const;
 };
 
