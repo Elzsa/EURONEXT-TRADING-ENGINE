@@ -9,8 +9,8 @@ include_directories(matching_engine/include)
 add_executable(MatchingEngine
         matching_engine/src/main.cpp
         matching_engine/src/Order.cpp
-        matching_engine/src/OrderBook.cpp
         matching_engine/src/Instrument.cpp
+        matching_engine/src/OrderBook.cpp
         matching_engine/src/MatchingEngine.cpp
 )
 
@@ -18,7 +18,7 @@ add_executable(MatchingEngine
 add_executable(TestMatchingEngine
         matching_engine/tests/test_main.cpp
         matching_engine/src/Order.cpp
-        matching_engine/src/OrderBook.cpp
         matching_engine/src/Instrument.cpp
+        matching_engine/src/OrderBook.cpp
         matching_engine/src/MatchingEngine.cpp
 )

@@ -1,8 +1,10 @@
 # Exclure les dépendances externes
 external/
-
 # Exclure les fichiers de build
 build/
+
+cmake-build-debug/
+
 
 # Exclure les DLL et fichiers binaires générés
 *.dll
@@ -11,4 +13,9 @@ build/
 *.a
 
 
-cmake-build-debug/
+*.json
+*.xml
+
+
+
+
