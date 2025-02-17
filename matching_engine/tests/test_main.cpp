@@ -23,13 +23,6 @@ int main() {
     Instrument instrument9(9, "AAA", 20220109, State::ACTIVE, 3400, 1009, 24, 2, 9, 9, 2027);
     Instrument instrument10(10, "BBB", 20220110, State::ACTIVE, 299, 1010, 157, 2, 10, 10, 2026);
 
-    // Afficher les informations de chaque instrument
-    instrument1.display();
-    instrument2.display();
-    instrument3.display();
-    instrument4.display();
-    instrument5.display();
-    instrument6.display();
 
     // Créer des ordres
     auto now = std::chrono::system_clock::now();
@@ -56,7 +49,9 @@ int main() {
     order6.display();
 
     OrderBook orderBook;
-    // Ajouter dans l'orderbook les orders
+
+    // Ajout des ordres dans le carnet
+    std::cout << "\n=== Ajout des ordres ===\n";
     orderBook.addOrder(order1);
     orderBook.addOrder(order2);
     orderBook.addOrder(order3);
@@ -68,12 +63,6 @@ int main() {
     orderBook.addOrder(order9);
     orderBook.addOrder(order10);
 
-    // Afficher l'ordre book
-    orderBook.display2();
-
-    // Obtenir le top of the book
-    auto [topBid, topAsk] = orderBook.getTopOfBook();
-    std::cout << "Top Bid: " << topBid.price << ", Top Ask: " << topAsk.price << std::endl;
 
 }
 
