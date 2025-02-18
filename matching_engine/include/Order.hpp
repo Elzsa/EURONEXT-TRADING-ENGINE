@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <string>
+#include "Instrument.hpp"
 
 // Enumeration for TimeInForce (order validity type)
 enum class TimeInForce {
@@ -29,7 +30,7 @@ public:
     std::string marketIdentificationCode; // Market Identification Code (MIC)
     std::string tradingCurrency;          // Trading currency
     std::chrono::system_clock::time_point priority; // Priority timestamp
-    int price;    // Price of the order
+    double price;    // Price of the order
     int quantity; // Quantity requested
     TimeInForce timeinforce; // Validity type of the order (e.g., GTD)
     OrderType ordertype;     // Type of order (BID or ASK)
@@ -41,17 +42,23 @@ public:
 
     // Constructor for GTD orders
     Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
-          std::chrono::system_clock::time_point priority, int price, int quantity,
+          std::chrono::system_clock::time_point priority, double price, int quantity,
           TimeInForce timeinforce, OrderType ordertype, LimitType limitType, int idinstrument, int originalqty, int idfirm,
           std::chrono::system_clock::time_point expirationDate);
 
     // Constructor for DAY orders (without expiration date)
     Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
-          std::chrono::system_clock::time_point priority, int price, int quantity,
+          std::chrono::system_clock::time_point priority, double price, int quantity,
           TimeInForce timeinforce, OrderType ordertype, LimitType limitType, int idinstrument, int originalqty, int idfirm);
 
     // Display order details
     void display() const;
+
+    // CHECK if order's price is ok (positive and a multiple of pricedecimal attribute)
+    bool validatePrice(const Instrument& instrument) const;
+
+    // CHECK if order's quantity is positive and a multiple of lotsize attribute
+    bool validateQuantity(const Instrument& instrument) const;
 
 };
 

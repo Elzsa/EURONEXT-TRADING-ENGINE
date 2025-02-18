@@ -6,36 +6,43 @@
 int main() {
 
     // Création d'un instrument
-    Instrument instrument1(1, "XPAR",  "EUR",
+    /*Instrument instrument1(1, "XPAR",  "EUR",
         "AAPL", 20220101, State::ACTIVE, 150, 1001, 100,
-        2, 1, 1, 2022);
+        2, 1, 1, 2022);*/
 
     Instrument instrument2(2, "XPAR",  "EUR",
-        "MSFT", 20220102, State::ACTIVE, 200, 1002, 400,
-        1, 2, 2, 2023);
+        "MSFT", 20220102, State::ACTIVE, 2740.01, 1002, 400,
+        2, 2, 2, 2023);
 
-    instrument1.display();
+    //instrument1.display();
     instrument2.display();
 
     // ORDRES
     auto now = std::chrono::system_clock::now();
 
     // Créer un ordre GTD (ASK) avec une expiration dans 5 jours
-    auto ext1 = now + std::chrono::hours(24 * 5);
+    /*auto ext1 = now + std::chrono::hours(24 * 5);
     Order gtdOrder(101, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
         std::chrono::system_clock::now(), instrument1.refprice, instrument1.lotsize,
         TimeInForce::GTD, OrderType::ASK, LimitType::LIMIT, instrument1.idinstrument, instrument1.lotsize, 1001,
-        ext1);
+        ext1);*/
 
     // Créer un ordre LIMIT (ASK) avec une expiration immédiate (DAY)
-    Order limitOrder(102, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
-        std::chrono::system_clock::now(), instrument2.refprice, instrument2.lotsize,
+    Order limitOrder(102, instrument2.marketIdentificationCode, instrument2.tradingCurrency,
+        std::chrono::system_clock::now(), instrument2.refprice, 800,
         TimeInForce::DAY, OrderType::ASK, LimitType::LIMIT, instrument2.idinstrument, instrument2.lotsize, 1001);
 
     // Affichage des ordres
-    gtdOrder.display();
+    //gtdOrder.display();
     limitOrder.display();
 
+
+    /////////////////////////// ORDER VALIDITY
+    if (limitOrder.validatePrice(instrument2) && limitOrder.validateQuantity(instrument2)) {
+        std::cout << "L'ordre est valide.\n";
+    } else {
+        std::cout << "L'ordre n'est pas valide.\n";
+    }
 
 
     // 2. Tester un Limit Order

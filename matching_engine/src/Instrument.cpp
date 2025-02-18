@@ -6,7 +6,8 @@
 #include <iostream>
 #include <cstring>
 
-Instrument::Instrument(int idinstrument, const std::string& marketIdentificationCode, const std::string& tradingCurrency, const std::string& name, int issue, State state, int refprice, int idtradinggroup,
+Instrument::Instrument(int idinstrument, const std::string& marketIdentificationCode, const std::string& tradingCurrency, const std::string& name,
+    int issue, State state, double refprice, int idtradinggroup,
                        int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf)
     : idinstrument(idinstrument), marketIdentificationCode(marketIdentificationCode), tradingCurrency(tradingCurrency), issue(issue), state(state), refprice(refprice), idtradinggroup(idtradinggroup),
       lotsize(lotsize), pricedecimal(pricedecimal), currentorderid(currentorderid), currenttradeid(currenttradeid),
@@ -14,7 +15,7 @@ Instrument::Instrument(int idinstrument, const std::string& marketIdentification
 {
 
     strncpy(this->name, name.c_str(), sizeof(this->name) - 1);
-    this->name[sizeof(this->name) - 1] = '\0';  // Le nom null-terminated
+    this->name[sizeof(this->name) - 1] = '\0';  // Name is null-terminated
 }
 
 void Instrument::display() const {

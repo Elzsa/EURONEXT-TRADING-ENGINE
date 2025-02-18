@@ -1,11 +1,14 @@
 #include "Order.hpp"
+#include "Instrument.hpp"
+
+#include <cmath>
 #include <iomanip>
 #include <ctime>
 #include <iostream>
 
 // Constructor for GTD orders
 Order::Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
-    std::chrono::system_clock::time_point priority, int price, int quantity,
+    std::chrono::system_clock::time_point priority, double price, int quantity,
     TimeInForce timeinforce, OrderType ordertype, LimitType limitType,  int idinstrument, int originalqty, int idfirm,
     std::chrono::system_clock::time_point expirationDate)
     : idorder(idorder), marketIdentificationCode(marketIdentificationCode), tradingCurrency(tradingCurrency),priority(priority), price(price), quantity(quantity), timeinforce(timeinforce),
@@ -13,12 +16,12 @@ Order::Order(int idorder, const std::string& marketIdentificationCode, const std
 
 // Constructor for DAY orders (no expirationDate)
 Order::Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
-    std::chrono::system_clock::time_point priority, int price, int quantity,
+    std::chrono::system_clock::time_point priority, double price, int quantity,
     TimeInForce timeinforce, OrderType ordertype, LimitType limitType, int idinstrument, int originalqty, int idfirm)
     : idorder(idorder), marketIdentificationCode(marketIdentificationCode), tradingCurrency(tradingCurrency),
       priority(priority), price(price), quantity(quantity), timeinforce(timeinforce), ordertype(ordertype),
       limitType(limitType), idinstrument(idinstrument), originalqty(originalqty), idfirm(idfirm) {
-    // Default expirationDate for DAY orders (not used)
+    // Default expirationDate for DAY orders (not used) N/A (DAY order)
     expirationDate = std::chrono::system_clock::time_point{};
 }
 
@@ -48,4 +51,47 @@ void Order::display() const {
     }
 
     std::cout << "================================\n";
+}
+
+
+
+bool Order::validatePrice(const Instrument& instrument) const {
+    if (price <= 0) {
+        std::cout << "ERROR: Price must be strictly positive.\n";
+        return false;
+    }
+
+
+    double precision = std::pow(10, instrument.pricedecimal);
+    double remainder = std::fmod(price * precision, 1.0);
+    double tolerance = 1e-8;
+    if (std::fabs(remainder) > tolerance) {
+        std::cout << "ERROR: Price must be a multiple of the instrument's pricedecimal.\n";
+        return false;
+    }
+
+    return true;
+}
+
+// Quantity validation
+bool Order::validateQuantity(const Instrument& instrument) const {
+    // Verify if quantity is positive
+    if (quantity <= 0) {
+        std::cout << "ERROR: QUantity must be strictly positive.\n";
+        return false;
+    }
+
+    //as quantity is an int it is converted to an int thus decimal part is suppressed
+    if (std::fmod(quantity, 1.0) != 0.0) {
+        std::cout << "ERROR: Quantity must be an integer.\n";
+        return false;
+    }
+
+    // Verify if quantity is a multiple of LOT SIZE
+    if (quantity % instrument.lotsize != 0) {
+        std::cout << "ERROR: Order quantity must be a multiple of its lot size.\n";
+        return false;
+    }
+
+    return true;
 }

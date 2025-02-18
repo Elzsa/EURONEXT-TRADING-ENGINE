@@ -11,19 +11,19 @@ enum class State {
     INACTIVE,
     SUSPENDED,
     DELISTED
-    // Etats possible de l'instrument via l'attribut state
+    // Diferrent states for our order
 };
 
-// selon POC Efrei ppt p.4
+//  POC Efrei ppt p.4
 class Instrument {
 public:
     int idinstrument;   // ISIN code
     std::string marketIdentificationCode; // Market Identification Code (MIC)
     std::string tradingCurrency;          // Trading currency
-    char name[50];           // Nom de l'instrument (max 50 cara) selon POC EURO
+    char name[50];           // Instrument name (max 50 cara) mentionend in POC
     int issue;
-    State state;             // Utilisation de l'énumération pour l'état
-    int refprice;
+    State state;
+    double  refprice;          // the price is a double
     int idtradinggroup;
     int lotsize;
     int pricedecimal;
@@ -33,7 +33,7 @@ public:
 
 
     Instrument(int idinstrument, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
-    const std::string& name, int issue, State state, int refprice, int idtradinggroup,
+    const std::string& name, int issue, State state, double refprice, int idtradinggroup,
     int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf);
 
 
