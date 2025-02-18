@@ -4,7 +4,7 @@ external/
 build/
 
 cmake-build-debug/
-
+.idea/
 
 # Exclure les DLL et fichiers binaires générés
 *.dll
