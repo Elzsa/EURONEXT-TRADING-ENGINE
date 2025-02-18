@@ -16,45 +16,31 @@ int main() {
 
     instrument1.display();
     instrument2.display();
-    // ORDRES
 
+    // ORDRES
     auto now = std::chrono::system_clock::now();
 
     // Créer un ordre GTD (ASK) avec une expiration dans 5 jours
     auto ext1 = now + std::chrono::hours(24 * 5);
     Order gtdOrder(101, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
         std::chrono::system_clock::now(), instrument1.refprice, instrument1.lotsize,
-        TimeInForce::GTD, OrderType::ASK, instrument1.idinstrument, instrument1.lotsize, 1001,
+        TimeInForce::GTD, OrderType::ASK, LimitType::LIMIT, instrument1.idinstrument, instrument1.lotsize, 1001,
         ext1);
 
-    // Créer un ordre LIMIT (ASK)
-    auto ext1_limit = now + std::chrono::hours(24 * 0);
+    // Créer un ordre LIMIT (ASK) avec une expiration immédiate (DAY)
     Order limitOrder(102, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
         std::chrono::system_clock::now(), instrument2.refprice, instrument2.lotsize,
-        TimeInForce::LIMIT, OrderType::ASK, instrument2.idinstrument, instrument2.lotsize, 1001, ext1_limit);
+        TimeInForce::DAY, OrderType::ASK, LimitType::LIMIT, instrument2.idinstrument, instrument2.lotsize, 1001);
 
-    // TESTS
-    // 1. Tester si l'ordre GTD est actif
-    std::cout << "\n===== Testing GTD Order =====\n";
+    // Affichage des ordres
     gtdOrder.display();
-    if (gtdOrder.isExpired(now)) {
-        std::cout << "GTD Order has expired.\n";
-    } else {
-        std::cout << "GTD Order is still active.\n";
-    }
+    limitOrder.display();
 
-    // Simuler l'avancement du temps (25 heures plus tard)
-    auto futureTime = now + std::chrono::hours(25*5);
-    std::cout << "\nSimulating 25 hours later...\n";
-    if (gtdOrder.isExpired(futureTime)) {
-        std::cout << "GTD Order has expired after 25 hours.\n";
-    } else {
-        std::cout << "GTD Order is still active after 25 hours.\n";
-    }
+
 
     // 2. Tester un Limit Order
-    std::cout << "\n===== Testing Limit Order =====\n";
-    limitOrder.display();
+    //std::cout << "\n===== Testing Limit Order =====\n";
+    //limitOrder.display();
 
     // Créer un ordre ASK pour tester le limit order (vente à 250)
     //Order askOrder(103, now, 250, 30, TimeInForce::LIMIT, OrderType::ASK, instrument1.idinstrument, 30, 1003);
