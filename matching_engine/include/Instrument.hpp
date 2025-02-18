@@ -1,8 +1,6 @@
 //
 // Created by PAYA Elsa on 08/01/2025.
 //
-
-// include/Instrument.hpp
 #ifndef INSTRUMENT_HPP
 #define INSTRUMENT_HPP
 
@@ -19,7 +17,9 @@ enum class State {
 // selon POC Efrei ppt p.4
 class Instrument {
 public:
-    int idinstrument;
+    int idinstrument;   // ISIN code
+    std::string marketIdentificationCode; // Market Identification Code (MIC)
+    std::string tradingCurrency;          // Trading currency
     char name[50];           // Nom de l'instrument (max 50 cara) selon POC EURO
     int issue;
     State state;             // Utilisation de l'énumération pour l'état
@@ -32,8 +32,9 @@ public:
     int idapf;
 
 
-    Instrument(int idinstrument, const std::string& name, int issue, State state, int refprice, int idtradinggroup,
-               int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf);
+    Instrument(int idinstrument, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
+    const std::string& name, int issue, State state, int refprice, int idtradinggroup,
+    int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf);
 
 
     void display() const;

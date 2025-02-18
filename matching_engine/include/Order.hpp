@@ -1,15 +1,13 @@
 #ifndef ORDER_HPP
 #define ORDER_HPP
 
-#include <string>
 #include <chrono>
-#include <optional>
-#include <iostream>
+#include <string>
 
 // Enumeration for TimeInForce (order validity type)
 enum class TimeInForce {
     GTD,         // Good Till Date
-    DAY          // Valid for the trading day
+    LIMIT          // Max purchase price for buyer | Min selling price for seller
 };
 
 // Enumeration for OrderType (type of order)
@@ -23,6 +21,8 @@ class Order {
 public:
     // Attributes (aligned with the database structure)
     int idorder;  // Unique ID of the order
+    std::string marketIdentificationCode; // Market Identification Code (MIC)
+    std::string tradingCurrency;          // Trading currency
     std::chrono::system_clock::time_point priority; // Priority timestamp
     int price;    // Price of the order
     int quantity; // Quantity requested
@@ -31,10 +31,13 @@ public:
     int idinstrument;        // Instrument ID
     int originalqty;         // Original quantity of the order
     int idfirm;              // Firm ID submitting the order
+    std::chrono::system_clock::time_point expirationDate; // only for GTD
 
     // Constructor
-    Order(int idorder, std::chrono::system_clock::time_point priority, int price, int quantity,
-          TimeInForce timeinforce, OrderType ordertype, int idinstrument, int originalqty, int idfirm);
+    Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
+        std::chrono::system_clock::time_point priority, int price, int quantity,
+          TimeInForce timeinforce, OrderType ordertype, int idinstrument, int originalqty, int idfirm,
+          std::chrono::system_clock::time_point expirationDate);
 
     // Display order details
     void display() const;
@@ -44,6 +47,8 @@ public:
 
     // Check if the order is expired (for GTD orders)
     bool isExpired(const std::chrono::system_clock::time_point& current_time) const;
+
+    bool isValidGTD(std::chrono::system_clock::time_point currentDate, int maxValidityDays) const;
 };
 
 #endif // ORDER_HPP

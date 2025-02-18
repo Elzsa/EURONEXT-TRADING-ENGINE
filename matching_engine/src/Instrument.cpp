@@ -1,14 +1,14 @@
 //
 // Created by PAYA Elsa on 08/01/2025.
 //
-// src/Instrument.cpp
+
 #include "Instrument.hpp"
 #include <iostream>
 #include <cstring>
 
-Instrument::Instrument(int idinstrument, const std::string& name, int issue, State state, int refprice, int idtradinggroup,
+Instrument::Instrument(int idinstrument, const std::string& marketIdentificationCode, const std::string& tradingCurrency, const std::string& name, int issue, State state, int refprice, int idtradinggroup,
                        int lotsize, int pricedecimal, int currentorderid, int currenttradeid, int idapf)
-    : idinstrument(idinstrument), issue(issue), state(state), refprice(refprice), idtradinggroup(idtradinggroup),
+    : idinstrument(idinstrument), marketIdentificationCode(marketIdentificationCode), tradingCurrency(tradingCurrency), issue(issue), state(state), refprice(refprice), idtradinggroup(idtradinggroup),
       lotsize(lotsize), pricedecimal(pricedecimal), currentorderid(currentorderid), currenttradeid(currenttradeid),
       idapf(idapf)
 {
@@ -19,6 +19,8 @@ Instrument::Instrument(int idinstrument, const std::string& name, int issue, Sta
 
 void Instrument::display() const {
     std::cout << "Instrument ID: " << idinstrument << "\n";
+    std::cout << "Market Identification Code (MIC): " << marketIdentificationCode << "\n";
+    std::cout << "Trading Currency: " << tradingCurrency << "\n";
     std::cout << "Name: " << name << "\n";
     std::cout << "Issue: " << issue << "\n";
     std::cout << "State: " << (state == State::ACTIVE ? "ACTIVE" : state == State::INACTIVE ? "INACTIVE" :

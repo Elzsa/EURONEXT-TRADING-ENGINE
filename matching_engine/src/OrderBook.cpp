@@ -13,7 +13,7 @@ void OrderBook::addOrder(const Order& order) {
 }
 
 // Afficher l'ordre book : affichage basique de la forme Price Level: Prix | Orders: Nb d'ordres sur ce price level
-void OrderBook::display() const {
+/*void OrderBook::display() const {
     std::cout << "Order Book:\n";
 
 
@@ -80,4 +80,4 @@ std::pair<Order, Order> OrderBook::getTopOfBook() const {
     }
 
     return {topBid, topAsk};
-}
+}*/
