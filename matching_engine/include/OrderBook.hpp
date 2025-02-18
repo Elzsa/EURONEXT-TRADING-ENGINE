@@ -1,34 +1,35 @@
 //
 // Created by PAYA Elsa on 08/01/2025.
 //
-#ifndef ORDER_BOOK_HPP
-#define ORDER_BOOK_HPP
+#ifndef ORDERBOOK_HPP
+#define ORDERBOOK_HPP
 
 #include <map>
-#include <queue>
+#include <deque>
 #include <iostream>
 #include "Order.hpp"
 
+// OrderBook for managing both BID and ASK orders
 class OrderBook {
-private:
-
-    using PriceLevel = std::queue<Order>;
-
-    // Structures pour trier les price levels
-    std::map<double, PriceLevel, std::greater<double>> bids;
-    std::map<double, PriceLevel> asks;
-
 public:
+    // Maps for storing orders, key is price which is the double, value is the list of orders at that price
+    std::map<double, std::deque<Order>> bidOrders;  // Orders to buy (BID)
+    std::map<double, std::deque<Order>> askOrders;  // Orders to sell (ASK)
 
+    // Constructor
+    OrderBook();
+
+    // Method to insert a new order into the order book
     void addOrder(const Order& order);
 
-
-    void display() const;
-
-    void display2() const;
+    // Remove an order from the order book based on idorder, marketIdentificationCode, and tradingCurrency
+    void removeOrder(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency, OrderType orderType);
 
 
-    std::pair<Order, Order> getTopOfBook() const;
+    // Method to display the OrderBook (BID and ASK)
+    void displayOrderBook() const;
+
+
 };
 
-#endif // ORDER_BOOK_HPP
+#endif // ORDERBOOK_HPP
