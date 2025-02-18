@@ -29,7 +29,7 @@ public:
     int idorder;  // Unique ID of the order
     std::string marketIdentificationCode; // Market Identification Code (MIC)
     std::string tradingCurrency;          // Trading currency
-    std::chrono::system_clock::time_point priority; // Priority timestamp
+    std::chrono::system_clock::time_point priority; // Priority timestamp, it goes to nanoseconds
     double price;    // Price of the order
     int quantity; // Quantity requested
     TimeInForce timeinforce; // Validity type of the order (e.g., GTD)

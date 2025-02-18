@@ -35,6 +35,9 @@ void Order::display() const {
     std::cout << "Market Identification Code (MIC): " << marketIdentificationCode << "\n";
     std::cout << "Trading Currency: " << tradingCurrency << "\n";
     std::cout << "Priority: " << std::ctime(&priority_time);
+    // Extract nanoseconds
+    auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(priority.time_since_epoch()).count() % 1000000000;
+    std::cout << "Priority Nanoseconds: " << ns << "\n";
     std::cout << "Price: " << price << "\n";
     std::cout << "Quantity: " << quantity << "\n";
     std::cout << "Time In Force: " << (timeinforce == TimeInForce::GTD ? "GTD" : "DAY") << "\n";

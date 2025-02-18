@@ -37,8 +37,8 @@ int main() {
         TimeInForce::DAY, OrderType::ASK, LimitType::LIMIT, instrument2.idinstrument, instrument2.lotsize, 1001);
 
     // Affichage des ordres
-    //gtdOrder.display();
-    //limitOrder.display();
+    gtdOrder.display();
+    limitOrder.display();
 
 
     /////////////////////////// ORDER VALIDITY
