@@ -40,6 +40,8 @@ public:
     int idfirm;              // Firm ID submitting the order
     std::chrono::system_clock::time_point expirationDate; // only for GTD
 
+    // basic constructor
+    Order();
     // Constructor for GTD orders
     Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
           std::chrono::system_clock::time_point priority, double price, int quantity,

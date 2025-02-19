@@ -54,25 +54,25 @@ void OrderBook::removeOrder(int idorder, const std::string& marketIdentification
 
 // Display all orders in the order book
 void OrderBook::displayOrderBook() const {
-    std::cout << "======= Order Book =======\n";
+    std::cout << "\n\n============== ORDER BOOK ==============\n";
 
-    std::cout << "\nBID Orders:\n";
+    std::cout << "\n\nBID Orders=====================\n";
     for (const auto& bid : bidOrders) {
-        std::cout << "Price: " << bid.first << "\n";
+        std::cout << "Price LEVEL: " << bid.first << "\n";
         for (const auto& order : bid.second) {
             order.display();
         }
     }
 
-    std::cout << "\nASK Orders:\n";
+    std::cout << "\n\nASK Orders=====================\n";
     for (const auto& ask : askOrders) {
-        std::cout << "Price: " << ask.first << "\n";
+        std::cout << "Price LEVEL: " << ask.first << "\n";
         for (const auto& order : ask.second) {
             order.display();
         }
     }
 
-    std::cout << "==========================\n";
+    std::cout << "\n\n============== END OF ORDER BOOK ==============\n";
 }
 
 

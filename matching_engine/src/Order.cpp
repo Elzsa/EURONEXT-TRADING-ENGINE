@@ -6,6 +6,15 @@
 #include <ctime>
 #include <iostream>
 
+// Implémentation du constructeur par défaut
+Order::Order() : idorder(0), marketIdentificationCode(""), tradingCurrency(""),
+                 priority(std::chrono::system_clock::now()), price(0.0), quantity(0),
+                 timeinforce(TimeInForce::DAY), ordertype(OrderType::BID),
+                 limitType(LimitType::LIMIT), idinstrument(0), originalqty(0), idfirm(0),
+                 expirationDate(std::chrono::system_clock::now()) {}
+
+
+
 // Constructor for GTD orders
 Order::Order(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency,
     std::chrono::system_clock::time_point priority, double price, int quantity,
