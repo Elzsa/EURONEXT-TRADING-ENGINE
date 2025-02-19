@@ -48,19 +48,27 @@ int main() {
         std::cout << "L'ordre n'est pas valide.\n";
     }
 
-    // Ajouter les ordres à l'OrderBook
+    // Add orders in OrderBook
     orderBook.addOrder(gtdOrder);
     orderBook.addOrder(limitOrder);
 
-    // Affichage des ordres dans l'OrderBook
+    // Display orders in OrderBook
     orderBook.displayOrderBook();
 
-    // Suppression d'un ordre (par exemple, celui avec idorder 101)
+    // Suppressing the order with id equal to 101
     orderBook.removeOrder(101, instrument1.marketIdentificationCode, instrument1.tradingCurrency, OrderType::ASK);
 
-    // Affichage après suppression
-    std::cout << "\nAfter suppression de l'ordre 101 :\n";
+
+    std::cout << "\nAfter suppression of order 101 :\n";
     orderBook.displayOrderBook();
+
+
+    std::cout << "\nSearch order with id 102, market 'XPAR', currency 'EUR' :\n";
+    orderBook.displayOrder(102, instrument2.marketIdentificationCode, instrument2.tradingCurrency);
+
+    std::cout << "\nSearch order with id 101, market 'XPAR', currency 'EUR' :\n";
+    orderBook.displayOrder(101, instrument1.marketIdentificationCode, instrument1.tradingCurrency);
+
 
     // 2. Tester un Limit Order
     //std::cout << "\n===== Testing Limit Order =====\n";

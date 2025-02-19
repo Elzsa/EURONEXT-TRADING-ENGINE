@@ -29,6 +29,8 @@ public:
     // Method to display the OrderBook (BID and ASK)
     void displayOrderBook() const;
 
+    // Method to display a specific order located in the OrderBook using its 3 primary keys
+    void displayOrder(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency) const;
 
 };
 

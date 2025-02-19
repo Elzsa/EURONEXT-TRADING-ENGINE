@@ -76,3 +76,33 @@ void OrderBook::displayOrderBook() const {
 }
 
 
+void OrderBook::displayOrder(int idorder, const std::string& marketIdentificationCode, const std::string& tradingCurrency) const {
+    // Search first in BID
+    for (const auto& bid : bidOrders) {
+        for (const auto& order : bid.second) {
+            if (order.idorder == idorder &&
+                order.marketIdentificationCode == marketIdentificationCode &&
+                order.tradingCurrency == tradingCurrency) {
+                order.display(); // Affiche l'ordre trouvé
+                return; // Si trouvé, on quitte la fonction
+                }
+        }
+    }
+
+    // Search secondly in ASK if not in BID
+    for (const auto& ask : askOrders) {
+        for (const auto& order : ask.second) {
+            if (order.idorder == idorder &&
+                order.marketIdentificationCode == marketIdentificationCode &&
+                order.tradingCurrency == tradingCurrency) {
+                order.display(); // Affiche l'ordre trouvé
+                return; // Si trouvé, on quitte la fonction
+                }
+        }
+    }
+
+    std::cout << "Order not found in the orderbook.\n"; // Message si l'ordre n'est pas trouvé dans l'OrderBook
+}
+
+
+
