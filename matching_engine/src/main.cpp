@@ -36,7 +36,7 @@ template <typename T>
 T getRandomEnumValue() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, enumCount<T>() - 1); // Utiliser enumCount pour déterminer la plage
+    std::uniform_int_distribution<> dis(0, enumCount<T>() - 1);
 
     return static_cast<T>(dis(gen));
 }
@@ -100,7 +100,7 @@ int main() {
                           limitType, instrument.idinstrument, instrument.lotsize, 1001, expiration);
         }
 
-        // Prie and quantity check
+        // Price and quantity check
         if (order.validatePrice(instrument) && order.validateQuantity(instrument)) {
             std::cout << "Order is validated for instrument " << order.idinstrument << ". Order is added in the orderbook.\n";
             orderBook.addOrder(order);

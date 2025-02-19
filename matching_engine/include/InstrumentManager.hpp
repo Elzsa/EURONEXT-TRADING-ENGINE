@@ -8,14 +8,14 @@
 
 class InstrumentManager {
 private:
-    std::set<std::tuple<int, std::string, std::string>> instrumentSet;
-    std::vector<Instrument> instruments; // Stocke tous les instruments créés
+    std::set<std::tuple<int, std::string, std::string>> instrumentSet; // store each valid instrument'ids
+    std::vector<Instrument> instruments; // Store every valid instrument
 
 public:
-    // Ajoute un instrument et vérifie l'unicité
+    // We verify unicity and we add the instrument
     bool addInstrument(const Instrument& instrument);
 
-    // Retourne la liste des instruments
+    // return list of instruments
     const std::vector<Instrument>& getInstruments() const;
 };
 
