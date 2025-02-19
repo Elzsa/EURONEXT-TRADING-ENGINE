@@ -11,6 +11,8 @@ add_executable(MatchingEngine
         matching_engine/src/Order.cpp
         matching_engine/src/Instrument.cpp
         matching_engine/src/OrderBook.cpp
+        matching_engine/src/Utils.cpp
+        matching_engine/src/InstrumentManager.cpp
         matching_engine/src/MatchingEngine.cpp
 )
 
@@ -20,5 +22,7 @@ add_executable(TestMatchingEngine
         matching_engine/src/Order.cpp
         matching_engine/src/Instrument.cpp
         matching_engine/src/OrderBook.cpp
+        matching_engine/src/Utils.cpp
+        matching_engine/src/InstrumentManager.cpp
         matching_engine/src/MatchingEngine.cpp
 )

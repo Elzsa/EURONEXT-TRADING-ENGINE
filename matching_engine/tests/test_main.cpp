@@ -3,6 +3,7 @@
 #include "../include/Instrument.hpp"
 #include "../include/Order.hpp"
 #include "../include/OrderBook.hpp"
+#include "../include/Utils.hpp"
 
 int main() {
 
@@ -26,13 +27,13 @@ int main() {
 
     // Créer un ordre GTD (ASK) avec une expiration dans 5 jours
     auto ext1 = now + std::chrono::hours(24 * 5);
-    Order gtdOrder(101, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
+    Order gtdOrder(instrument1.idinstrument, instrument1.marketIdentificationCode, instrument1.tradingCurrency,
         std::chrono::system_clock::now(), instrument1.refprice, instrument1.lotsize,
         TimeInForce::GTD, OrderType::ASK, LimitType::LIMIT, instrument1.idinstrument, instrument1.lotsize, 1001,
         ext1);
 
     // Créer un ordre LIMIT (ASK) avec une expiration immédiate (DAY)
-    Order limitOrder(102, instrument2.marketIdentificationCode, instrument2.tradingCurrency,
+    Order limitOrder(instrument2.idinstrument, instrument2.marketIdentificationCode, instrument2.tradingCurrency,
         std::chrono::system_clock::now(), instrument2.refprice, 800,
         TimeInForce::DAY, OrderType::ASK, LimitType::LIMIT, instrument2.idinstrument, instrument2.lotsize, 1001);
 
