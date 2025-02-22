@@ -5,6 +5,7 @@ build/
 
 cmake-build-debug/
 .idea/
+.vscode/
 
 # Exclure les DLL et fichiers binaires générés
 *.dll
