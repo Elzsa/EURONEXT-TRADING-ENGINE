@@ -40,28 +40,53 @@ void MatchingEngine::run() {
         try {
             auto now = std::chrono::system_clock::now();
 
-            // Tentative d'appariement toutes les secondes (augmenté de 100ms à 1s pour réduire le spam)
-            orderBook.matchOrders();
+            // Convertir le chrono::time_point en time_t pour l'affichage
+            auto now_time_t = std::chrono::system_clock::to_time_t(now);
 
-            // Vérification des ordres GTD toutes les heures
+            // Tenter les appariements
+            int matches = orderBook.matchOrders();
+            if (matches > 0) {
+                std::cout << "\nMatched " << matches << " orders at "
+                         << std::put_time(std::localtime(&now_time_t), "%H:%M:%S") << std::endl;
+            }
+
+            // Vérification des ordres GTD
             if (now - lastGTDCheck > std::chrono::hours(1)) {
+                std::cout << "\nChecking GTD orders at "
+                         << std::put_time(std::localtime(&now_time_t), "%H:%M:%S") << std::endl;
                 checkGTDOrders();
                 lastGTDCheck = now;
             }
 
-            // Affichage du statut toutes les minutes
+            // Affichage du statut
             if (now - lastStatusUpdate > std::chrono::minutes(1)) {
+                std::cout << "\n=== Status Update at "
+                         << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S")
+                         << " ===" << std::endl;
                 displayEngineStatus();
                 lastStatusUpdate = now;
             }
 
-            // Pause plus longue pour éviter le spam
+            // Pause pour éviter la surcharge CPU
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         catch (const std::exception& e) {
             std::cerr << "\nError in trading engine: " << e.what() << std::endl;
         }
     }
+}
+
+void MatchingEngine::displayEngineStatus() const {
+    auto now = std::chrono::system_clock::now();
+    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << "\n=== Trading Engine Status ===\n";
+    std::cout << "Time: " << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "\n";
+    std::cout << "Engine Status: " << (isRunning ? "Running" : "Stopped") << "\n";
+    std::cout << "Number of instruments: " << instrumentManager.getInstruments().size() << "\n";
+    std::cout << "Number of BID price levels: " << orderBook.bidOrders.size() << "\n";
+    std::cout << "Number of ASK price levels: " << orderBook.askOrders.size() << "\n";
+    std::cout << "==========================\n\n";
 }
 
 void MatchingEngine::checkGTDOrders() {
@@ -113,17 +138,4 @@ bool MatchingEngine::addAndValidateOrder(const Order& order) {
         }
     }
     return false;
-}
-
-void MatchingEngine::displayEngineStatus() const {
-    auto now = std::chrono::system_clock::now();
-    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-
-    std::cout << "\n=== Trading Engine Status ===\n";
-    std::cout << "Time: " << std::put_time(std::localtime(&now_time), "%Y-%m-%d %H:%M:%S") << "\n";
-    std::cout << "Engine Status: " << (isRunning ? "Running" : "Stopped") << "\n";
-    std::cout << "Number of instruments: " << instrumentManager.getInstruments().size() << "\n";
-    std::cout << "Number of BID price levels: " << orderBook.bidOrders.size() << "\n";
-    std::cout << "Number of ASK price levels: " << orderBook.askOrders.size() << "\n";
-    std::cout << "==========================\n\n";
 }
