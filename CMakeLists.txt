@@ -4,25 +4,25 @@ project(MatchingEngine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(matching_engine/include)
+include_directories(MatchingEngine/include)
 
 add_executable(MatchingEngine
-        matching_engine/src/main.cpp
-        matching_engine/src/Order.cpp
-        matching_engine/src/Instrument.cpp
-        matching_engine/src/OrderBook.cpp
-        matching_engine/src/Utils.cpp
-        matching_engine/src/InstrumentManager.cpp
-        matching_engine/src/MatchingEngine.cpp
+        MatchingEngine/src/Main.cpp
+        MatchingEngine/src/Order.cpp
+        MatchingEngine/src/Instrument.cpp
+        MatchingEngine/src/OrderBook.cpp
+        MatchingEngine/src/Utils.cpp
+        MatchingEngine/src/InstrumentManager.cpp
+        MatchingEngine/src/MatchingEngine.cpp
 )
 
 # Exécutable pour les tests
 add_executable(TestMatchingEngine
-        matching_engine/tests/test_main.cpp
-        matching_engine/src/Order.cpp
-        matching_engine/src/Instrument.cpp
-        matching_engine/src/OrderBook.cpp
-        matching_engine/src/Utils.cpp
-        matching_engine/src/InstrumentManager.cpp
-        matching_engine/src/MatchingEngine.cpp
+        MatchingEngine/tests/test_main.cpp
+        MatchingEngine/src/Order.cpp
+        MatchingEngine/src/Instrument.cpp
+        MatchingEngine/src/OrderBook.cpp
+        MatchingEngine/src/Utils.cpp
+        MatchingEngine/src/InstrumentManager.cpp
+        MatchingEngine/src/MatchingEngine.cpp
 )

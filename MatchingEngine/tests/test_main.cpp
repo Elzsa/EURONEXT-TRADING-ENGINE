@@ -5,8 +5,8 @@
 #include "../include/OrderBook.hpp"
 #include "../include/Utils.hpp"
 
-int main() {
-
+int main()
+{
     // FICHIER BROUILLON POUR FAIRE DES PETITS TESTS
 
 
