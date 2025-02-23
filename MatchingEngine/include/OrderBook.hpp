@@ -1,67 +1,114 @@
-// OrderBook.hpp
-
 #ifndef ORDERBOOK_HPP
 #define ORDERBOOK_HPP
 
 #include <map>
 #include <deque>
-#include <iostream>
+#include <mutex>
 #include <vector>
+#include <iostream>
 #include "Order.hpp"
+#include "Trading.hpp"
 
-// Structure to represent a trade that occurs when orders match
-struct Trade
-{
-    int tradeId;
-    int buyOrderId;
-    int sellOrderId;
-    std::string marketIdentificationCode;
-    std::string tradingCurrency;
-    double price;
-    int quantity;
-    std::chrono::system_clock::time_point timestamp;
+// Forward declaration to avoid circular dependency
+class MatchingEngine;
 
-    void display() const;
-};
-
-// OrderBook for managing both BID and ASK orders
-class OrderBook
-{
-private:
-    int nextTradeId;
-    std::vector<Trade> trades;
-    void cleanupExecutedOrders();
-
+/**
+ * @class OrderBook
+ * @brief Manages the collection and matching of trading orders
+ */
+class OrderBook {
 public:
-    // Maps for storing orders, key is price which is the double, value is the list of orders at that price
-    // For BID orders, we use reverse ordering to prioritize higher prices first
-    std::map<double, std::deque<Order>, std::greater<double>> bidOrders; // Orders to buy (BID)
-    // For ASK orders, we use normal ordering to prioritize lower prices first
-    std::map<double, std::deque<Order>> askOrders; // Orders to sell (ASK)
+    /**
+     * @brief Bid orders container
+     * 
+     * Stores buy orders organized by price in descending order.
+     * Key: Price, Value: Queue of orders at that price level
+     */
+    std::map<double, std::deque<Order>, std::greater<double> > bidOrders;
 
-    // Constructor
+    /**
+     * @brief Ask orders container
+     * 
+     * Stores sell orders organized by price in ascending order.
+     * Key: Price, Value: Queue of orders at that price level
+     */
+    std::map<double, std::deque<Order> > askOrders;
+
+    /**
+     * @brief Default constructor
+     */
     OrderBook();
 
-    // Method to insert a new order into the order book
+    /**
+     * @brief Adds a new order to the order book
+     *
+     * @param order The order to be added to the book
+     */
     void addOrder(const Order& order);
 
-    // Match orders according to Price-Time Priority algorithm
-    // Returns the number of trades executed
+    /**
+     * @brief Executes the order matching algorithm
+     *
+     * @return int Number of trades executed in this matching cycle
+     */
     int matchOrders();
 
-    // Remove an order from the order book based on idorder, marketIdentificationCode, and tradingCurrency
-    void removeOrder(int idorder, const std::string& marketIdentificationCode,
-                     const std::string& tradingCurrency, OrderType orderType);
-
-    // Method to display the OrderBook (BID and ASK)
+    /**
+     * @brief Displays the current state of the order book
+     */
     void displayOrderBook() const;
 
-    // Method to display a specific order located in the OrderBook using its 3 primary keys
-    void displayOrder(int idorder, const std::string& marketIdentificationCode,
-                      const std::string& tradingCurrency) const;
-
-    // Method to display all trades that have occurred
+    /**
+     * @brief Displays the history of executed trades
+     */
     void displayTrades() const;
+
+    /**
+     * @brief Retrieves the most recently executed trade
+     *
+     * @return const Trade* Pointer to the last trade, or nullptr if no trades
+     */
+    const Trade* getLastTrade() const;
+
+    /**
+     * @brief Sets a reference to the matching engine
+     *
+     * @param engine Pointer to the MatchingEngine instance
+     */
+    void setMatchingEngine(MatchingEngine* engine) { matchingEngine = engine; }
+
+private:
+    /**
+     * @brief Container for all executed trades
+     */
+    std::vector<Trade> trades;
+
+    /**
+     * @brief Tracks the ID for the next trade
+     */
+    int nextTradeId;
+
+    /**
+     * @brief Pointer to the associated MatchingEngine
+     */
+    MatchingEngine* matchingEngine;
+
+    /**
+     * @brief Removes fully executed orders from the order book
+     */
+    void cleanupExecutedOrders();
+
+    /**
+     * @brief Notifies the matching engine about a trade execution
+     *
+     * @param trade The trade that has been executed
+     */
+    void notifyMatch(const Trade& trade);
+
+    /**
+     * @brief Mutex for thread-safe display operations
+     */
+    std::mutex displayMutex;
 };
 
 #endif // ORDERBOOK_HPP

@@ -1,26 +1,50 @@
+/**
+ * @file OrderBook.cpp
+ * @brief Implementation of the OrderBook class methods
+ *
+ * Provides core functionality for managing trading orders,
+ * executing order matching, and tracking trade history.
+ */
+
 #include "OrderBook.hpp"
+#include <iomanip>
+#include "MatchingEngine.hpp"
 
-// Trade display method
-void Trade::display() const
-{
-    std::time_t trade_time = std::chrono::system_clock::to_time_t(timestamp);
-    std::cout << "====== Trade Information =======\n";
-    std::cout << "Trade ID: " << tradeId << "\n";
-    std::cout << "Buy Order ID: " << buyOrderId << "\n";
-    std::cout << "Sell Order ID: " << sellOrderId << "\n";
-    std::cout << "Market Identification Code (MIC): " << marketIdentificationCode << "\n";
-    std::cout << "Trading Currency: " << tradingCurrency << "\n";
-    std::cout << "Price: " << price << "\n";
-    std::cout << "Quantity: " << quantity << "\n";
-    std::cout << "Timestamp: " << std::ctime(&trade_time);
-    std::cout << "================================\n";
-}
-
-// Constructor
-OrderBook::OrderBook() : nextTradeId(1)
+/**
+ * @brief Default constructor for OrderBook
+ *
+ * Initializes the order book with default values:
+ * - Sets initial trade ID to 1
+ * - Sets matching engine pointer to null
+ */
+OrderBook::OrderBook() : nextTradeId(1), matchingEngine(nullptr)
 {
 }
 
+/**
+ * @brief Notifies the matching engine about a new trade
+ *
+ * @param trade The completed trade to be reported
+ *
+ * Updates trading statistics in the matching engine if
+ * a matching engine is available.
+ */
+void OrderBook::notifyMatch(const Trade& trade)
+{
+    if (matchingEngine)
+    {
+        matchingEngine->updateStats(trade);
+    }
+}
+
+/**
+ * @brief Adds a new order to the appropriate order container
+ *
+ * @param order The order to be added
+ *
+ * Inserts the order into either BID or ASK orders map
+ * based on its order type.
+ */
 void OrderBook::addOrder(const Order& order)
 {
     // Insert BID orders into bidOrders map
@@ -33,18 +57,113 @@ void OrderBook::addOrder(const Order& order)
     {
         askOrders[order.price].push_back(order);
     }
-
-    // Try to match orders after adding a new order
-    int matches = matchOrders();
-    if (matches > 0)
-    {
-        std::cout << "Added order resulted in " << matches << " trade(s)" << std::endl;
-    }
 }
 
+/**
+ * @brief Attempts to match BID and ASK orders
+ *
+ * @return int Number of trades executed
+ *
+ * Implements the core order matching algorithm:
+ * - Matches orders across price levels
+ * - Executes trades when matching conditions are met
+ * - Handles partial order fulfillment
+ * - Cleans up fully executed orders
+ */
+int OrderBook::matchOrders()
+{
+    int tradesExecuted = 0;
+    std::lock_guard<std::mutex> lock(displayMutex);
+
+    while (!bidOrders.empty() && !askOrders.empty())
+    {
+        auto highestBidIt = bidOrders.begin();
+        auto lowestAskIt = askOrders.begin();
+
+        // Stop matching if lowest ask price exceeds highest bid price
+        if (highestBidIt->first < lowestAskIt->first)
+        {
+            break;
+        }
+
+        bool matchFound = false;
+        for (auto& bidOrder : highestBidIt->second)
+        {
+            for (auto& askOrder : lowestAskIt->second)
+            {
+                // Verify order compatibility (instrument, market, currency)
+                if (bidOrder.idinstrument == askOrder.idinstrument &&
+                    bidOrder.marketIdentificationCode == askOrder.marketIdentificationCode &&
+                    bidOrder.tradingCurrency == askOrder.tradingCurrency)
+                {
+                    auto now = std::chrono::system_clock::now();
+                    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+
+                    // Log matching order details
+                    std::cout << "\nMatching orders found at "
+                        << std::put_time(std::localtime(&now_time_t), "%H:%M:%S") << ":\n"
+                        << "BID: " << bidOrder.idorder << " Price: "
+                        << std::fixed << std::setprecision(2) << bidOrder.price << "\n"
+                        << "ASK: " << askOrder.idorder << " Price: "
+                        << askOrder.price << std::endl;
+
+                    // Determine trade quantity (minimum of bid and ask quantities)
+                    int tradeQuantity = std::min(bidOrder.quantity, askOrder.quantity);
+
+                    // Create trade record
+                    Trade trade;
+                    trade.tradeId = nextTradeId++;
+                    trade.buyOrderId = bidOrder.idorder;
+                    trade.sellOrderId = askOrder.idorder;
+                    trade.marketIdentificationCode = bidOrder.marketIdentificationCode;
+                    trade.tradingCurrency = bidOrder.tradingCurrency;
+                    trade.price = askOrder.price;
+                    trade.quantity = tradeQuantity;
+                    trade.timestamp = now;
+
+                    // Record and notify about the trade
+                    trades.push_back(trade);
+                    notifyMatch(trade);
+
+                    // Update remaining order quantities
+                    bidOrder.quantity -= tradeQuantity;
+                    askOrder.quantity -= tradeQuantity;
+
+                    tradesExecuted++;
+                    matchFound = true;
+
+                    // Log trade execution details
+                    std::cout << "Executed trade: " << tradeQuantity
+                        << " units at price " << trade.price << std::endl;
+
+                    // Stop processing if either order is fully executed
+                    if (bidOrder.quantity == 0 || askOrder.quantity == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (matchFound) break;
+        }
+
+        // Remove fully executed orders
+        cleanupExecutedOrders();
+        if (!matchFound) break;
+    }
+
+    return tradesExecuted;
+}
+
+/**
+ * @brief Removes orders with zero remaining quantity
+ *
+ * Cleans up both BID and ASK order containers by:
+ * - Removing orders with zero quantity
+ * - Removing empty price levels
+ */
 void OrderBook::cleanupExecutedOrders()
 {
-    // Nettoyer les BID orders
+    // Clean up BID orders
     for (auto it = bidOrders.begin(); it != bidOrders.end();)
     {
         it->second.erase(
@@ -62,7 +181,7 @@ void OrderBook::cleanupExecutedOrders()
         }
     }
 
-    // Nettoyer les ASK orders
+    // Clean up ASK orders
     for (auto it = askOrders.begin(); it != askOrders.end();)
     {
         it->second.erase(
@@ -81,139 +200,20 @@ void OrderBook::cleanupExecutedOrders()
     }
 }
 
-int OrderBook::matchOrders()
-{
-    int tradesExecuted = 0;
-
-    while (!bidOrders.empty() && !askOrders.empty())
-    {
-        auto highestBidIt = bidOrders.begin();
-        auto lowestAskIt = askOrders.begin();
-
-        // Chercher un appariement possible
-        bool matchFound = false;
-        for (auto& bidOrder : highestBidIt->second)
-        {
-            for (auto& askOrder : lowestAskIt->second)
-            {
-                // Vérifier si les ordres sont pour le même instrument
-                if (bidOrder.price >= askOrder.price && // Condition de prix
-                    bidOrder.idinstrument == askOrder.idinstrument &&
-                    bidOrder.marketIdentificationCode == askOrder.marketIdentificationCode &&
-                    bidOrder.tradingCurrency == askOrder.tradingCurrency)
-                {
-                    std::cout << "\nMatching orders found:"
-                        << "\nBID: " << bidOrder.idorder << " Price: " << bidOrder.price
-                        << "\nASK: " << askOrder.idorder << " Price: " << askOrder.price << std::endl;
-
-                    // Calculer la quantité à échanger
-                    int tradeQuantity = std::min(bidOrder.quantity, askOrder.quantity);
-
-                    // Créer une transaction
-                    Trade trade;
-                    trade.tradeId = nextTradeId++;
-                    trade.buyOrderId = bidOrder.idorder;
-                    trade.sellOrderId = askOrder.idorder;
-                    trade.marketIdentificationCode = bidOrder.marketIdentificationCode;
-                    trade.tradingCurrency = bidOrder.tradingCurrency;
-                    trade.price = askOrder.price;
-                    trade.quantity = tradeQuantity;
-                    trade.timestamp = std::chrono::system_clock::now();
-
-                    trades.push_back(trade);
-
-                    // Mettre à jour les quantités
-                    bidOrder.quantity -= tradeQuantity;
-                    askOrder.quantity -= tradeQuantity;
-
-                    tradesExecuted++;
-                    matchFound = true;
-
-                    std::cout << "Executed trade: " << tradeQuantity
-                        << " units at price " << trade.price << std::endl;
-
-                    // Si l'un des ordres est complètement exécuté, le retirer
-                    if (bidOrder.quantity == 0 || askOrder.quantity == 0)
-                    {
-                        break;
-                    }
-                }
-            }
-            if (matchFound) break;
-        }
-
-        // Nettoyer les ordres complètement exécutés
-        cleanupExecutedOrders();
-
-        // Si aucun appariement n'a été trouvé, sortir de la boucle
-        if (!matchFound) break;
-    }
-
-    return tradesExecuted;
-}
-
-// Remove an order from the order book
-void OrderBook::removeOrder(int idorder, const std::string& marketIdentificationCode,
-                            const std::string& tradingCurrency, OrderType orderType)
-{
-    // Implementation remains the same
-    if (orderType == OrderType::BID)
-    {
-        // Search and remove from bid orders
-        for (auto it = bidOrders.begin(); it != bidOrders.end(); ++it)
-        {
-            auto& ordersAtPrice = it->second;
-            for (auto orderIt = ordersAtPrice.begin(); orderIt != ordersAtPrice.end(); ++orderIt)
-            {
-                if (orderIt->idorder == idorder &&
-                    orderIt->marketIdentificationCode == marketIdentificationCode &&
-                    orderIt->tradingCurrency == tradingCurrency)
-                {
-                    ordersAtPrice.erase(orderIt);
-                    // Check if price level is now empty
-                    if (ordersAtPrice.empty())
-                    {
-                        bidOrders.erase(it);
-                    }
-                    return;
-                }
-            }
-        }
-    }
-    else if (orderType == OrderType::ASK)
-    {
-        // Search and remove from ask orders
-        for (auto it = askOrders.begin(); it != askOrders.end(); ++it)
-        {
-            auto& ordersAtPrice = it->second;
-            for (auto orderIt = ordersAtPrice.begin(); orderIt != ordersAtPrice.end(); ++orderIt)
-            {
-                if (orderIt->idorder == idorder &&
-                    orderIt->marketIdentificationCode == marketIdentificationCode &&
-                    orderIt->tradingCurrency == tradingCurrency)
-                {
-                    ordersAtPrice.erase(orderIt);
-                    // Check if price level is now empty
-                    if (ordersAtPrice.empty())
-                    {
-                        askOrders.erase(it);
-                    }
-                    return;
-                }
-            }
-        }
-    }
-}
-
-// Display all orders in the order book
+/**
+ * @brief Displays the current state of the order book
+ *
+ * Outputs all BID and ASK orders sorted by price levels,
+ * providing a comprehensive view of current market orders.
+ */
 void OrderBook::displayOrderBook() const
 {
-    std::cout << "\n\n============== ORDER BOOK ==============\n";
+    std::cout << "\n\n============== ORDER BOOK ==============\n\n";
 
-    std::cout << "\n\nBID Orders=====================\n";
+    std::cout << "\nBID Orders=====================\n";
     for (const auto& bid : bidOrders)
     {
-        std::cout << "Price LEVEL: " << bid.first << "\n";
+        std::cout << "Price LEVEL: " << std::fixed << std::setprecision(2) << bid.first << "\n";
         for (const auto& order : bid.second)
         {
             order.display();
@@ -223,7 +223,7 @@ void OrderBook::displayOrderBook() const
     std::cout << "\n\nASK Orders=====================\n";
     for (const auto& ask : askOrders)
     {
-        std::cout << "Price LEVEL: " << ask.first << "\n";
+        std::cout << "Price LEVEL: " << std::fixed << std::setprecision(2) << ask.first << "\n";
         for (const auto& order : ask.second)
         {
             order.display();
@@ -233,45 +233,12 @@ void OrderBook::displayOrderBook() const
     std::cout << "\n\n============== END OF ORDER BOOK ==============\n";
 }
 
-// Display a specific order
-void OrderBook::displayOrder(int idorder, const std::string& marketIdentificationCode,
-                             const std::string& tradingCurrency) const
-{
-    // Implementation remains the same
-    // Search first in BID
-    for (const auto& bid : bidOrders)
-    {
-        for (const auto& order : bid.second)
-        {
-            if (order.idorder == idorder &&
-                order.marketIdentificationCode == marketIdentificationCode &&
-                order.tradingCurrency == tradingCurrency)
-            {
-                order.display(); // Affiche l'ordre trouvé
-                return; // Si trouvé, on quitte la fonction
-            }
-        }
-    }
-
-    // Search secondly in ASK if not in BID
-    for (const auto& ask : askOrders)
-    {
-        for (const auto& order : ask.second)
-        {
-            if (order.idorder == idorder &&
-                order.marketIdentificationCode == marketIdentificationCode &&
-                order.tradingCurrency == tradingCurrency)
-            {
-                order.display(); // Affiche l'ordre trouvé
-                return; // Si trouvé, on quitte la fonction
-            }
-        }
-    }
-
-    std::cout << "Order not found in the orderbook.\n"; // Message si l'ordre n'est pas trouvé dans l'OrderBook
-}
-
-// Display all trades that have occurred
+/**
+ * @brief Displays the history of executed trades
+ *
+ * Outputs details of all trades that have been completed,
+ * or a message if no trades have occurred.
+ */
 void OrderBook::displayTrades() const
 {
     std::cout << "\n\n============== TRADE HISTORY ==============\n";
@@ -289,4 +256,35 @@ void OrderBook::displayTrades() const
     }
 
     std::cout << "\n\n============== END OF TRADE HISTORY ==============\n";
+}
+
+/**
+ * @brief Displays comprehensive details of a trade
+ *
+ * Outputs all relevant information about a single trade
+ * execution, including identifiers, pricing, and timing.
+ */
+void Trade::display() const
+{
+    std::time_t trade_time = std::chrono::system_clock::to_time_t(timestamp);
+    std::cout << "====== Trade Information =======\n";
+    std::cout << "Trade ID: " << tradeId << "\n";
+    std::cout << "Buy Order ID: " << buyOrderId << "\n";
+    std::cout << "Sell Order ID: " << sellOrderId << "\n";
+    std::cout << "Market Identification Code (MIC): " << marketIdentificationCode << "\n";
+    std::cout << "Trading Currency: " << tradingCurrency << "\n";
+    std::cout << "Price: " << std::fixed << std::setprecision(2) << price << "\n";
+    std::cout << "Quantity: " << quantity << "\n";
+    std::cout << "Timestamp: " << std::ctime(&trade_time);
+    std::cout << "================================\n";
+}
+
+/**
+ * @brief Retrieves the most recently executed trade
+ *
+ * @return const Trade* Pointer to the last trade, or nullptr if no trades exist
+ */
+const Trade* OrderBook::getLastTrade() const
+{
+    return trades.empty() ? nullptr : &trades.back();
 }

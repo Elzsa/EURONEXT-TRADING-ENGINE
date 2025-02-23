@@ -15,14 +15,3 @@ add_executable(MatchingEngine
         MatchingEngine/src/InstrumentManager.cpp
         MatchingEngine/src/MatchingEngine.cpp
 )
-
-# Exécutable pour les tests
-add_executable(TestMatchingEngine
-        MatchingEngine/tests/test_main.cpp
-        MatchingEngine/src/Order.cpp
-        MatchingEngine/src/Instrument.cpp
-        MatchingEngine/src/OrderBook.cpp
-        MatchingEngine/src/Utils.cpp
-        MatchingEngine/src/InstrumentManager.cpp
-        MatchingEngine/src/MatchingEngine.cpp
-)

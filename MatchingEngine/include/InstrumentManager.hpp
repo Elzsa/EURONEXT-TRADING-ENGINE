@@ -1,3 +1,11 @@
+/**
+* @file InstrumentManager.hpp
+* @brief Manages the collection and validation of financial instruments
+*
+* This class handles the storage and management of financial instruments,
+* ensuring uniqueness and providing access to the instrument collection.
+*/
+
 #ifndef INSTRUMENT_MANAGER_HPP
 #define INSTRUMENT_MANAGER_HPP
 
@@ -6,16 +14,39 @@
 #include "Instrument.hpp"
 #include "Utils.hpp"
 
+/**
+* @class InstrumentManager
+* @brief Manages a collection of financial instruments
+*
+* Provides functionality to add and retrieve instruments while
+* maintaining uniqueness constraints based on instrument identifiers.
+*/
 class InstrumentManager {
 private:
-    std::set<std::tuple<int, std::string, std::string>> instrumentSet; // store each valid instrument'ids
-    std::vector<Instrument> instruments; // Store every valid instrument
+    /// Stores unique instrument identifiers as tuples of (id, market code, currency)
+    std::set<std::tuple<int, std::string, std::string>> instrumentSet;
+
+    /// Collection of all valid instruments
+    std::vector<Instrument> instruments;
 
 public:
-    // We verify unicity and we add the instrument
+    /**
+     * @brief Adds a new instrument to the collection
+     *
+     * Verifies the uniqueness of the instrument based on its identifier tuple
+     * (id, market code, currency) before adding it to the collection.
+     *
+     * @param instrument The instrument to be added
+     * @return true if the instrument was successfully added
+     * @return false if the instrument already exists
+     */
     bool addInstrument(const Instrument& instrument);
 
-    // return list of instruments
+    /**
+     * @brief Retrieves the collection of all valid instruments
+     *
+     * @return const std::vector<Instrument>& Reference to the vector of instruments
+     */
     const std::vector<Instrument>& getInstruments() const;
 };
 
